@@ -5,7 +5,8 @@ import ItemDetailContainer from './containers/ItemDetailContainer';
 import Header from "./componentes/Header/Header";
 import Cart from './componentes/Cart/Cart';
 import { CartProvider } from './componentes/CartContext/CartContext';
-
+import app from "./firebase/config"
+import Checkout from "./containers/Checkout";
 
 function App() {
   return (
@@ -18,11 +19,11 @@ function App() {
           <Route path="/categoria/:categoriaId" element={<ItemListContainer />} />
           <Route path="/produto/:produtoId" element={<ItemDetailContainer />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="*" element={<h2>Página não encontrada (404)</h2>} />
         </Routes>
       </CartProvider>
     </BrowserRouter>
-
   );
 }
 

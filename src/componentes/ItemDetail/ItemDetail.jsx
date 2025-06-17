@@ -1,11 +1,14 @@
 import { useCart } from '../CartContext/CartContext';
 import ItemCount from "../ItemCount/ItemCount";
 
-const ItemDetail = ({ id, nome, preco }) => {
+const ItemDetail = ({ id, nome, preco, stock }) => {
   const { addItem } = useCart();
 
+  if (preco === undefined) {
+    return <p>Carregando...</p>;
+  }
+
   const handleAdd = (quantidade) => {
-    // Adiciona o produto com a quantidade selecionada no carrinho
     addItem({ id, nome, preco, quantidade });
     console.log(`Você adicionou ${quantidade} do produto ${nome}`);
   };
@@ -14,7 +17,12 @@ const ItemDetail = ({ id, nome, preco }) => {
     <div>
       <h2>{nome}</h2>
       <p>Preço: R$ {preco.toFixed(2)}</p>
-      <ItemCount initial={1} stock={5} onAdd={handleAdd} />
+
+      {stock === 0 ? (
+        <p style={{ color: 'red' }}>Produto sem estoque</p>
+      ) : (
+        <ItemCount initial={1} stock={stock} onAdd={handleAdd} />
+      )}
     </div>
   );
 };

@@ -1,21 +1,31 @@
-const produtos = [
-  { id: "1", nome: "Soluções em Banco de Dados", categoria: "DBA", preco: 2000.00 },
-  { id: "2", nome: "Desenvolvimento em Python", categoria: "Programação", preco: 3000.00 },
-  { id: "3", nome: "Infraestrutura de TI", categoria: "InfraEstrutura", preco: 5000.00 },
-  { id: "4", nome: "Soluções em AWS", categoria: "AWS", preco: 6500.00 }
-];
+import { collection, getDocs, doc, getDoc, query, where } from "firebase/firestore";
+import db from "../firebase/config";
 
-export const getProdutos = () =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(produtos), 1000);
-  });
+export const getProdutos = async () => {
+  const produtosRef = collection(db, "items");
+  const snapshot = await getDocs(produtosRef);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
 
-export const getProdutoPorId = (id) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(produtos.find(p => p.id === id)), 1000);
-  });
+export const getProdutoPorId = async (produtoId) => {
+  const docRef = doc(db, "items", produtoId); // Busca pelo ID do item
+  const docSnap = await getDoc(docRef);
 
-export const getProdutosPorCategoria = (categoriaId) =>
-  new Promise((resolve) => {
-    setTimeout(() => resolve(produtos.filter(p => p.categoria === categoriaId)), 1000);
-  });
+  if (docSnap.exists()) {
+    return { id: docSnap.id, ...docSnap.data() };
+  } else {
+    return null;
+  }
+};
+
+// Agora usa diretamente o categoryId vindo da URL (ex: "1", "2", "3"...)
+export const getProdutosPorCategoria = async (categoryId) => {
+  const produtosRef = collection(db, "items");
+  const produtosQuery = query(produtosRef, where("categoryId", "==", categoryId));
+  const produtosSnapshot = await getDocs(produtosQuery);
+
+  return produtosSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+};

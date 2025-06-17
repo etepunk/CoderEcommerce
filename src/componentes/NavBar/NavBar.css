@@ -1,17 +1,26 @@
-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #eee;
-  }
-  
-  ul {
-    display: flex;
-    list-style: none;
-    gap: 15px;
-  }
-  
-  ul li a {
-    text-decoration: none;
-  }
-  
+.nav-link {
+  color: #333; /* Cor padrão */
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #007bff; /* Azul bootstrap */
+  text-decoration: underline;
+}
+
+.nav-link.active {
+  color: #0056b3;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 2px solid #0056b3;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.1);
+}
+
+.d-flex.ms-lg-auto {
+  align-items: center;
+  gap: 15px; /* Espaço entre ícones ou elementos dentro do carrinho */
+}

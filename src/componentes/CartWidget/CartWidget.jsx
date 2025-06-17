@@ -3,7 +3,7 @@ import { useCart } from '../CartContext/CartContext';
 
 function CartWidget() {
   const { cartItems } = useCart();
-  const cartItemCount = cartItems.length;
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantidade, 0);
 
   return (
     <Link to="/cart" style={{ textDecoration: 'none', color: 'black' }}>
